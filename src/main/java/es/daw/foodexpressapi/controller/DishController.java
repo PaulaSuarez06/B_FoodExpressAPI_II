@@ -7,8 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
@@ -25,6 +28,12 @@ public class DishController {
     public ResponseEntity<Page<DishResponseDTO>> getAllDishes(Pageable pageable) {
         return ResponseEntity.ok(dishService.findAll(pageable));
     }
+
+    @GetMapping("/{restaurantId}")
+       public ResponseEntity<List<DishResponseDTO>> getAllDishesByRestaurant(@PathVariable Long restaurantId) {
+        return ResponseEntity.ok(dishService.findByRestaurantId(restaurantId));
+    }
+
 
 }
 

@@ -60,5 +60,10 @@ public class RestaurantController {
 
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<RestaurantResponseDTO> findOneById(@RequestParam Long id) {
+        return ResponseEntity.ok(restaurantService.getById(id));
+    }
+
 
 }

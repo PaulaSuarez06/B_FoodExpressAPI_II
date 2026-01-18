@@ -9,6 +9,8 @@ import es.daw.foodexpressapi.dto.report.DishUnitsSoldDTO;
 import es.daw.foodexpressapi.dto.report.RestaurantOrdersDTO;
 import es.daw.foodexpressapi.entity.Order;
 import es.daw.foodexpressapi.enums.OrderStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -38,11 +40,12 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
         
     """
     )
-    public List<Order> findByFilters(
+    public Page<Order> findByFilters(
             //String status,
             OrderStatus status,
             Long userId,
-            Long restaurantId
+            Long restaurantId,
+            Pageable pageable
     );
 
     // ------------- PENDIENTE !!!!

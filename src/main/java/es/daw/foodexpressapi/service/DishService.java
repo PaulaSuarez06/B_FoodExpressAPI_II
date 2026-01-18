@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DishService {
@@ -27,6 +29,14 @@ public class DishService {
     public Page<DishResponseDTO> findAll(Pageable pageable) {
         return dishRepository.findAll(pageable)
                 .map(dishMapper::toResponseDTO);
+    }
+
+
+    public List<DishResponseDTO> findByRestaurantId(Long restaurantId) {
+        return dishRepository.findByRestaurantId(restaurantId)
+                .stream()
+                .map(dishMapper :: toResponseDTO)
+                .toList();
     }
 
 }

@@ -2,11 +2,17 @@ package es.daw.foodexpressapi.controller;
 
 import es.daw.foodexpressapi.dto.*;
 import es.daw.foodexpressapi.dto.order.CreateOrderDTO;
+import es.daw.foodexpressapi.dto.order.OrderCreatedResponseDTO;
 import es.daw.foodexpressapi.dto.order.OrderResponseDTO;
 import es.daw.foodexpressapi.dto.order.OrderSummaryDTO;
 import es.daw.foodexpressapi.service.OrderService;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,13 +27,15 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<List<OrderResponseDTO>> filterOrders(
+    public ResponseEntity<Page<OrderResponseDTO>> filterOrders(
             @RequestParam(required = false) String status,
             @Min(1) @RequestParam(required = false) Long userId,
-            @RequestParam(required = false) Long restaurantId
+            @RequestParam(required = false) Long restaurantId,
+            @PageableDefault(size = 10, sort = "orderDate", direction = Sort.Direction.DESC)
+            Pageable pageable
     ) {
 
-            return ResponseEntity.ok(orderService.filterOrders(status, userId, restaurantId));
+            return ResponseEntity.ok(orderService.filterOrders(status, userId, restaurantId, pageable));
 
     }
 
@@ -38,8 +46,10 @@ public class OrderController {
 
     // PENDIENTE!!!!! CREAR PEDIDO
     @PostMapping
-    public ResponseEntity<OrderResponseDTO> crearPedido(@RequestBody CreateOrderDTO dto){
-        return null;
+    public ResponseEntity<OrderCreatedResponseDTO> crearPedido(@RequestBody CreateOrderDTO dto) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(orderService.createOrder(dto));
     }
 
 

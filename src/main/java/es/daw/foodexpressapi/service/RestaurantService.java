@@ -56,6 +56,14 @@ public class RestaurantService {
 
     }
 
+    public RestaurantResponseDTO getById(Long id){
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("El restaurante no existe"));
+
+        return  restaurantMapper.toDTO(restaurant);
+
+    }
+
 
 
 
