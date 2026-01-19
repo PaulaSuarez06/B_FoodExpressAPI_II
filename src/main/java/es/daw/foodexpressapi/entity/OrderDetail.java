@@ -21,16 +21,16 @@ public class OrderDetail {
 //    private Long id;
 
     @EmbeddedId
-    private OrderDetailId orderDetailId;
+    private OrderDetailId orderDetailId;     //---- SE REFIERE A LAS DOS CLAVES PRIMARIAS DE LA TABLA ORDER DETAILS, ESTA EN ORDERDETAULID
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("orderId")
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id")  // HAY UNA FOREING KEY EN LA TABLA ORDER DETAILS
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) //NUCHOS DETALLE DE PEDIDO ESTAN EN UN PLATO
     @MapsId("dishId")
-    @JoinColumn(name = "dish_id")
+    @JoinColumn(name = "dish_id") // HAY UNA FOREING KEY EN LA TABLA ORDER DETAILS
     private Dish dish;
 
     private Integer quantity;
